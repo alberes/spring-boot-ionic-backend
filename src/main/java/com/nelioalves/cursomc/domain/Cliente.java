@@ -41,6 +41,9 @@ public class Cliente  implements Serializable{
 	@ElementCollection
 	@CollectionTable(name = "telefone")
 	private Set<String> telefones;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos;
 
 	public Cliente() {
 		super();
@@ -124,6 +127,17 @@ public class Cliente  implements Serializable{
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
 	}
+	
+	public List<Pedido> getPedidos() {
+		if(this.pedidos == null) {
+			this.pedidos = new ArrayList<Pedido>();
+		}
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	@Override
 	public int hashCode() {
@@ -153,7 +167,7 @@ public class Cliente  implements Serializable{
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", documento=" + documento + ", tipo="
-				+ tipo + ", enderecos=" + enderecos + ", telefones=" + telefones + "]";
+				+ tipo + ", enderecos=" + enderecos + ", telefones=" + telefones + ", pedidos=" + pedidos + "]";
 	}
 	
 }

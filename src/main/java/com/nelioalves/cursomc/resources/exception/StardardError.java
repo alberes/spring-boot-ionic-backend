@@ -1,7 +1,11 @@
 package com.nelioalves.cursomc.resources.exception;
 
-public class StardardError {
+import java.io.Serializable;
+
+public class StardardError implements Serializable{
 	
+	private static final long serialVersionUID = -4347711731634151204L;
+
 	private Integer status;
 	
 	private String msg;

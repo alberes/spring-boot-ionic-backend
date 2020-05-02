@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 	
-	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" };
+	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
 
 	@Autowired
 	private Environment enviroment;

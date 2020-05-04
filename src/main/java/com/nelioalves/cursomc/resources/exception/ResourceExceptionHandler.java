@@ -9,8 +9,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.nelioalves.cursomc.services.exception.AuthorizationException;
 import com.nelioalves.cursomc.services.exception.DataIntegrityException;
+import com.nelioalves.cursomc.services.exception.FileException;
 import com.nelioalves.cursomc.services.exception.ObjectNotFoundException;
 
 @ControllerAdvice
@@ -55,4 +59,42 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	
 	}
+	
+	@ExceptionHandler(FileException.class)
+	public ResponseEntity<StardardError> file(FileException e, HttpServletRequest request){
+		
+		StardardError err = new StardardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	
+	}
+	
+	@ExceptionHandler(AmazonServiceException.class)
+	public ResponseEntity<StardardError> amazonService(AmazonServiceException e, HttpServletRequest request){
+		
+		HttpStatus code = HttpStatus.valueOf(e.getErrorCode());
+		StardardError err = new StardardError(code.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(code).body(err);
+	
+	}
+	
+	@ExceptionHandler(AmazonClientException.class)
+	public ResponseEntity<StardardError> amazonClient(AmazonClientException e, HttpServletRequest request){
+		
+		StardardError err = new StardardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	
+	}
+	
+	@ExceptionHandler(AmazonS3Exception.class)
+	public ResponseEntity<StardardError> amazonS3(AmazonS3Exception e, HttpServletRequest request){
+		
+		StardardError err = new StardardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	
+	}
+
 }
